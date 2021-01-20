@@ -1,0 +1,22 @@
+
+# selection of peaks from exported .raw files
+import pandas as pd
+data = pd.read_csv(r'D:\Projects\2020_HuangLushuang\20200331\Origianl mass list 30s_3.csv')
+
+sample_count=data["Mass"].count()
+n=sample_count-1
+dic= {}
+dic2={}
+output1 = {}
+for i in range(n):
+    n1 = float(data.loc[i,"Intensity"])
+    n2 = float(data.loc[i+1,"Intensity"])
+    mass2 = float(data.loc[i+1,"Mass"])
+    if n2-n1 >= 0:
+        dic.update({mass2:n2})
+    else:
+        dic2 = {key:val for key,val in dic.items() if val == max(dic.values())}
+        dic = {}
+    output1.update(dic2)
+output2 = pd.DataFrame(output1.items())
+output2.to_csv("D:\\Projects\\2020_HuangLushuang\\20200331\\output_Origianl mass list 30s_3.csv", index = False)

@@ -1,0 +1,40 @@
+
+# Match the same mass features from diifferent runs
+import pandas as pd
+ID1 = pd.read_csv(r'D:\Projects\2020_HuangLushuang\20200329\drive-download-20200329T154327Z-001\output_Original mass list_30s_3.csv')
+ID2 = pd.read_csv(r'D:\Projects\2020_HuangLushuang\20200329\drive-download-20200329T154327Z-001\output_Original mass list_30s_9.csv')
+ID3 = pd.read_csv(r'D:\Projects\2020_HuangLushuang\3U.csv')
+ID4 = pd.read_csv(r'D:\Projects\2020_HuangLushuang\3U.csv')
+
+def chose_mz(sample):
+     list1=[]
+     alllist= []
+     dic = {}
+     dic2={}
+     sample_count=sample["M/z values"].count()
+     ID1_count= ID1["M/z values"].count()
+     for i in range(ID1_count):
+         print(i)
+         for j in range(sample_count):
+           ID1_mz = float(ID1.loc[i,"M/z values"]) #access m/z values in csv
+           sample_mz = float(sample.loc[j,"M/z values"])
+           ppm=1000000*(ID1_mz - sample_mz)/ID1_mz
+           if abs(ppm)<10:
+              h = float(sample.loc[j,"Intensities"])
+              m = float(sample.loc[j,"M/z values"])
+              dic.update({m:h})
+           else:
+              h = 0
+              m = 0
+              dic.update({m: h})
+         dic2 = {key: val for key, val in dic.items() if val == max(dic.values())}
+         #print(dic2)
+         for key, value in dic2.items():
+             list1 = [key, value]
+             alllist.append(list1)
+         dic ={}
+     return pd.DataFrame(alllist, columns= ["M/Z","Intensity"])
+ID1 = pd.concat([ID1,chose_mz(ID2)], axis=1)
+ID1 = pd.concat([ID1,chose_mz(ID3)], axis=1)
+ID1 = pd.concat([ID1,chose_mz(ID4)], axis=1)
+ID1.to_csv("D:\\Projects\\2020_HuangLushuang\\20200329\drive-download-20200329T154327Z-001\\output_test111.csv",index = False)
