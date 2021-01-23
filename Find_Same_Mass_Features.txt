@@ -1,10 +1,10 @@
 
 # Match the same mass features from diifferent runs
 import pandas as pd
-ID1 = pd.read_csv(r'D:\Projects\2020_HuangLushuang\20200329\drive-download-20200329T154327Z-001\output_Original mass list_30s_3.csv')
-ID2 = pd.read_csv(r'D:\Projects\2020_HuangLushuang\20200329\drive-download-20200329T154327Z-001\output_Original mass list_30s_9.csv')
-ID3 = pd.read_csv(r'D:\Projects\2020_HuangLushuang\3U.csv')
-ID4 = pd.read_csv(r'D:\Projects\2020_HuangLushuang\3U.csv')
+ID1 = pd.read_csv(r'D:\Projects\Data1.csv')
+ID2 = pd.read_csv(r'D:\Projects\Data2.csv')
+ID3 = pd.read_csv(r'D:\Projects\Data3.csv')
+ID4 = pd.read_csv(r'D:\Projects\Data4.csv')
 
 def chose_mz(sample):
      list1=[]
@@ -37,4 +37,4 @@ def chose_mz(sample):
 ID1 = pd.concat([ID1,chose_mz(ID2)], axis=1)
 ID1 = pd.concat([ID1,chose_mz(ID3)], axis=1)
 ID1 = pd.concat([ID1,chose_mz(ID4)], axis=1)
-ID1.to_csv("D:\\Projects\\2020_HuangLushuang\\20200329\drive-download-20200329T154327Z-001\\output_test111.csv",index = False)
+ID1.to_csv("D:\\Projects\\Output.csv",index = False)
